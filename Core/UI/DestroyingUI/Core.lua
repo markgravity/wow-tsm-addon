@@ -152,8 +152,6 @@ function private.CreateMainFrame()
 				:SetScript("PreClick", private.DestroyButtonPreClick)
 			)
 		)
-	frame:GetElement("titleFrame.closeBtn"):SetScript("OnClick", private.CloseButtonOnClick)
-		:Draw()
 	return frame
 end
 

@@ -192,7 +192,7 @@ end
 -- @treturn ApplicationFrame The application frame object
 function ApplicationFrame.SetTitle(self, title)
 	local titleFrame = self:GetElement("titleFrame")
-	titleFrame:GetElement("title"):SetText(title)
+	-- titleFrame:GetElement("title"):SetText(title)
 	titleFrame:Draw()
 	return self
 end
