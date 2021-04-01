@@ -20,7 +20,7 @@ local private = {
 	defaultUISwitchBtn = nil,
 	isVisible = false,
 }
-local MIN_FRAME_SIZE = { width = 560, height = 500 }
+local MIN_FRAME_SIZE = { width = 400, height = 500 }
 
 
 
