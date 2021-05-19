@@ -110,7 +110,7 @@ function TSM.ModuleInfoIterator()
 end
 
 function TSM.IsWowClassic()
-	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+	return WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 end
 
 function TSM.IsShadowlands()
