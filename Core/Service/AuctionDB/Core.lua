@@ -61,8 +61,8 @@ function AuctionDB.OnEnable()
 		for _, info in ipairs(appData) do
 			local realm, data = unpack(info)
 			local downloadTime = "?"
-			-- try switching around "Classic-[US|EU]" to match the addon's "[US|EU]-Classic" format for classic region data
-			if realm == private.region or gsub(realm, "Classic-%-([A-Z]+)", "%1-Classic") == private.region then
+			-- try switching around "Classic-[US|EU]" to match the addon's "[US|EU]-[Classic|BCC]" format for classic/BCC region data
+			if realm == private.region or gsub(realm, "Classic-%-([A-Z]+)", "%1-Classic") == private.region or gsub(realm, "BCC-%-([A-Z]+)", "%1-BCC") == private.region then
 				private.regionData, private.regionUpdateTime = private.LoadRegionAppData(data)
 				downloadTime = SecondsToTime(time() - private.regionUpdateTime).." ago"
 			elseif TSMAPI.AppHelper:IsCurrentRealm(realm) then

@@ -1,5 +1,5 @@
-## v4.10.32 Changes
+## v4.10.36 Changes
 
-* Fixed error some users were getting when opening the Dashboard
+* [BCC] Added support for Burning Crusade Classic
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

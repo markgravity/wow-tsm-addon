@@ -18,7 +18,7 @@ local private = {}
 local NAV_BAR_SPACING = 16
 local NAV_BAR_HEIGHT = 24
 local NAV_BAR_RELATIVE_LEVEL = 21
-local NAV_BAR_TOP_OFFSET = -30
+local NAV_BAR_TOP_OFFSET = -8
 
 
 

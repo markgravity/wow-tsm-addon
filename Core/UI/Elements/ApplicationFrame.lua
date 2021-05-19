@@ -19,7 +19,7 @@ local ScriptWrapper = TSM.Include("Util.ScriptWrapper")
 local Theme = TSM.Include("Util.Theme")
 local Tooltip = TSM.Include("UI.Tooltip")
 local UIElements = TSM.Include("UI.UIElements")
-local ApplicationFrame = TSM.Include("LibTSMClass").DefineClass("ApplicationFrame", TSM.UI.ButtonFrame)
+local ApplicationFrame = TSM.Include("LibTSMClass").DefineClass("ApplicationFrame", TSM.UI.Frame)
 UIElements.Register(ApplicationFrame)
 TSM.UI.ApplicationFrame = ApplicationFrame
 local private = {
@@ -29,7 +29,7 @@ local SECONDS_PER_HOUR = 60 * 60
 local SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR
 local CONTENT_FRAME_OFFSET = 8
 local DIALOG_RELATIVE_LEVEL = 18
-local HEADER_HEIGHT = 62
+local HEADER_HEIGHT = 40
 local MIN_SCALE = 0.3
 local DIALOG_OPACITY_PCT = 65
 local MIN_ON_SCREEN_PX = 50
@@ -59,7 +59,7 @@ function ApplicationFrame.__init(self)
 	tinsert(UISpecialFrames, 1, globalFrameName)
 
 	self._nineSlice = NineSlice.New(frame)
-	-- self._nineSlice:SetStyle("outerFrame")
+	self._nineSlice:SetStyle("outerFrame")
 
 	frame.resizeIcon = frame:CreateTexture(nil, "ARTWORK")
 	frame.resizeIcon:SetPoint("BOTTOMRIGHT")
@@ -84,8 +84,24 @@ function ApplicationFrame.Acquire(self)
 	self:AddChildNoLayout(UIElements.New("Frame", "titleFrame")
 		:SetLayout("HORIZONTAL")
 		:SetHeight(24)
-		:AddAnchor("BOTTOMLEFT", 8, 3)
-		:AddAnchor("BOTTOMRIGHT", -8, 8)
+		:AddAnchor("TOPLEFT", 8, -8)
+		:AddAnchor("TOPRIGHT", -8, -8)
+		:SetBackgroundColor("FRAME_BG")
+		:AddChild(UIElements.New("Texture", "icon")
+			:SetMargin(0, 16, 0, 0)
+			:SetTextureAndSize("uiFrames.SmallLogo")
+		)
+		:AddChild(UIElements.New("Text", "title")
+			:AddAnchor("CENTER")
+			:SetWidth("AUTO")
+			:SetFont("BODY_BODY2_BOLD")
+			:SetTextColor("TEXT_ALT")
+		)
+		:AddChild(UIElements.New("Spacer", "spacer"))
+		:AddChild(UIElements.New("Button", "closeBtn")
+			:SetBackgroundAndSize("iconPack.24x24/Close/Default")
+			:SetScript("OnClick", private.CloseButtonOnClick)
+		)
 	)
 	self.__super:Acquire()
 	local frame = self:_GetBaseFrame()
@@ -118,9 +134,8 @@ end
 -- @treturn ApplicationFrame The application frame object
 function ApplicationFrame.AddPlayerGold(self)
 	local titleFrame = self:GetElement("titleFrame")
-	titleFrame:AddChild(UIElements.New("PlayerGoldText", "playerGold")
+	titleFrame:AddChildBeforeById(titleFrame:HasChildById("switchBtn") and "switchBtn" or "closeBtn", UIElements.New("PlayerGoldText", "playerGold")
 		:SetWidth("AUTO")
-		:AddAnchor("BOTTOMRIGHT", -50, 0)
 		:SetMargin(0, 8, 0, 0)
 	)
 	return self
@@ -146,10 +161,9 @@ function ApplicationFrame.AddAppStatusIcon(self)
 		texture = "iconPack.14x14/Checkmark/Circle"
 	end
 	local titleFrame = self:GetElement("titleFrame")
-	titleFrame:AddChild(UIElements.New("Button", "playerGold")
+	titleFrame:AddChildBeforeById("playerGold", UIElements.New("Button", "playerGold")
 		:SetBackgroundAndSize(TSM.UI.TexturePacks.GetColoredKey(texture, Theme.GetFeedbackColor(color)))
 		:SetMargin(0, 8, 0, 0)
-		:AddAnchor("BOTTOMRIGHT", 0, 4)
 		:SetTooltip(private.GetAppStatusTooltip)
 	)
 	return self
@@ -161,11 +175,10 @@ end
 -- @treturn ApplicationFrame The application frame object
 function ApplicationFrame.AddSwitchButton(self, onClickHandler)
 	local titleFrame = self:GetElement("titleFrame")
-	titleFrame:AddChild(UIElements.New("ActionButton", "switchBtn")
-		:SetSize(60, 16)
+	titleFrame:AddChildBeforeById("closeBtn", UIElements.New("ActionButton", "switchBtn")
+		:SetSize(95, 20)
 		:SetMargin(0, 8, 0, 0)
 		:SetFont("BODY_BODY3_MEDIUM")
-		:AddAnchor("BOTTOMLEFT", 0, 4)
 		:SetText(L["WOW UI"])
 		:SetScript("OnClick", onClickHandler)
 	)
@@ -192,7 +205,7 @@ end
 -- @treturn ApplicationFrame The application frame object
 function ApplicationFrame.SetTitle(self, title)
 	local titleFrame = self:GetElement("titleFrame")
-	-- titleFrame:GetElement("title"):SetText(title)
+	titleFrame:GetElement("title"):SetText(title)
 	titleFrame:Draw()
 	return self
 end
@@ -205,7 +218,7 @@ function ApplicationFrame.SetContentFrame(self, frame)
 	assert(frame:__isa(TSM.UI.Frame))
 	frame:WipeAnchors()
 	frame:AddAnchor("TOPLEFT", CONTENT_FRAME_OFFSET, -HEADER_HEIGHT)
-	frame:AddAnchor("BOTTOMRIGHT", -CONTENT_FRAME_OFFSET, CONTENT_FRAME_OFFSET + 22)
+	frame:AddAnchor("BOTTOMRIGHT", -CONTENT_FRAME_OFFSET, CONTENT_FRAME_OFFSET)
 	frame:SetPadding(2)
 	frame:SetBorderColor("ACTIVE_BG", 2)
 	self._contentFrame = frame
@@ -378,7 +391,7 @@ function ApplicationFrame.Draw(self)
 	local frame = self:_GetBaseFrame()
 	frame:SetToplevel(true)
 	frame:Raise()
-	-- self._nineSlice:SetVertexColor(Theme.GetColor("FRAME_BG"):GetFractionalRGBA())
+	self._nineSlice:SetVertexColor(Theme.GetColor("FRAME_BG"):GetFractionalRGBA())
 
 	-- update the size if it's less than the set min size
 	assert(self._minWidth > 0 and self._minHeight > 0)

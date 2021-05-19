@@ -65,6 +65,7 @@ end
 -- ============================================================================
 -- Private Helper Functions
 -- ============================================================================
+
 function private.PopulateTasks()
 	local hash = private.query:Hash()
 	if hash == private.prevHash then

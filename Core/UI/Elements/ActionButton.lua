@@ -31,7 +31,7 @@ local CLICK_COOLDOWN = 0.2
 -- ============================================================================
 
 function ActionButton.__init(self, name, isSecure)
-	local frame = UIElements.CreateFrame(self, "Button", name, nil, isSecure and "SecureActionButtonTemplate,UIPanelButtonTemplate" or "UIPanelButtonTemplate")
+	local frame = UIElements.CreateFrame(self, "Button", name, nil, isSecure and "SecureActionButtonTemplate" or nil)
 	ScriptWrapper.Set(frame, isSecure and "PostClick" or "OnClick", private.OnClick, self)
 	ScriptWrapper.Set(frame, "OnMouseDown", private.OnMouseDown, self)
 	ScriptWrapper.Set(frame, "OnEnter", private.OnEnter, self)
@@ -287,7 +287,7 @@ function ActionButton.Draw(self)
 	end
 	frame.text:SetTextColor(textColor:GetFractionalRGBA())
 	if nineSliceTheme then
-		-- self._nineSlice:SetStyle(nineSliceTheme)
+		self._nineSlice:SetStyle(nineSliceTheme)
 		self._nineSlice:SetVertexColor(nineSliceColor:GetFractionalRGBA())
 	else
 		self._nineSlice:Hide()

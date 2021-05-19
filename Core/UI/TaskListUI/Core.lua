@@ -326,7 +326,6 @@ function private.OnTaskListUpdate()
 			TaskListUI.Toggle()
 			return
 		end
-
 		private.frame:SetTitle(L["TSM TASK LIST"].." ("..numTasks..")")
 		local contentFrame = private.frame:GetElement("content")
 		contentFrame:ReleaseAllChildren()

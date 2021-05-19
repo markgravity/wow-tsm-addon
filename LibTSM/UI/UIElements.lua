@@ -38,16 +38,7 @@ end
 -- @param ... Tags to set on the element
 -- @treturn Element The created UI element object
 function UIElements.New(elementType, id, ...)
-	return private.NewElementHelper(elementType, id, nil, nil, ...)
-end
-
---- Creates a new UI element.
--- @tparam string elementType The name of the element class
--- @tparam string id The id to assign to the element
--- @param ... Tags to set on the element
--- @treturn Element The created UI element object
-function UIElements.NewTemplated(elementType, id, template, ...)
-	return private.NewElementHelper(elementType, id, nil, template, ...)
+	return private.NewElementHelper(elementType, id, nil, ...)
 end
 
 --- Creates a new named UI element.
@@ -57,7 +48,7 @@ end
 -- @treturn Element The created UI element object
 function UIElements.NewNamed(elementType, id, name, ...)
 	assert(name)
-	return private.NewElementHelper(elementType, id, name, nil, ...)
+	return private.NewElementHelper(elementType, id, name, ...)
 end
 
 --- Recycles a UI element.
@@ -123,15 +114,13 @@ end
 -- Private Helper Functions
 -- ============================================================================
 
-function private.NewElementHelper(elementType, id, name, template, ...)
+function private.NewElementHelper(elementType, id, name, ...)
 	local class = private.elementClasses[elementType]
 	local element = nil
 	if name then
 		private.namedElements[name] = private.namedElements[name] or class(name)
 		element = private.namedElements[name]
 		assert(_G[name] == element:_GetBaseFrame())
-	elseif template then
-		element = class(template)
 	else
 		if not private.objectPools[class] then
 			private.objectPools[class] = ObjectPool.New("UI_"..class.__name, class, 1)
