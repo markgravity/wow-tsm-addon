@@ -1,5 +1,5 @@
-## v4.10.36 Changes
+## v4.10.39 Changes
 
-* [BCC] Added support for Burning Crusade Classic
+* [BCC] Fixed error when creating/updating the TSM macro
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

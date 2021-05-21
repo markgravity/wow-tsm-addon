@@ -481,7 +481,7 @@ function private.GetItemDataHelper(tbl, key, itemString)
 end
 
 function private.GetRegionItemDataHelper(tbl, key, itemString)
-	if not itemString or not tbl then
+	if not itemString or not tbl or not tbl.fieldLookup[key] then
 		return nil
 	end
 	itemString = ItemString.Filter(itemString)
