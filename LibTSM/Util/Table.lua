@@ -130,7 +130,7 @@ function Table.GetDistinctKey(tbl, value)
 			key = k
 		end
 	end
-	-- assert(key)
+	assert(key)
 	return key
 end
 
