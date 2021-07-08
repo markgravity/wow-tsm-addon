@@ -4,20 +4,29 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
+--- Drag Functions
+-- @module DragContext
+
 local _, TSM = ...
--- only create the TSMDEV table if we're in a dev or test environment
-if not TSM.IsDevVersion() and not TSM.IsTestEnvironment() then
-	return
+local DragContext = TSM.Init("Util.DragContext")
+local private = {
+	context = nil,
+}
+
+
+
+-- ============================================================================
+-- Module Functions
+-- ============================================================================
+
+function DragContext.Get()
+	return private.context
 end
-TSMDEV = {}
 
+function DragContext.Set(items)
+	private.context = items
+end
 
-
--- ============================================================================
--- Global TSMDEV Functions
--- ============================================================================
-
-function TSMDEV.Dump(value)
-	LoadAddOn("Blizzard_DebugTools")
-	DevTools_Dump(value)
+function DragContext.Clear()
+	private.context = nil
 end
