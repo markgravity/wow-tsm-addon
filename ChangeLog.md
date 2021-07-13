@@ -1,5 +1,6 @@
-## v4.11.6 Changes
+## v4.11.8 Changes
 
-* [Retail] Fixed crafting cost of the new legendary ranks
+* [Retail] Fixes some crafting issues with some optional materials
+* Fixed errors related to scrolling tables
 
 [Known Issues](http://support.tradeskillmaster.com/display/KB/TSM4+Currently+Known+Issues)

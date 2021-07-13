@@ -16541,14 +16541,11 @@ L["Custom Sources"] = "自定义源"
 L["Custom sources allow you to create more advanced prices for use throughout the addon. You'll be able to use these new variables in the same way you can use the built-in price sources such as %s and %s."] = "自定义来源允许您创建在整个插件中使用的更高级的价格。您将能够以与使用内置价格来源（例如%s和%s）相同的方式来使用这些新变量。"
 L["Custom Theme"] = "自定义主题"
 L["Custom Themes."] = "自定义主题"
---[[Translation missing --]]
-L["DAILY PURCHASES"] = "DAILY PURCHASES"
---[[Translation missing --]]
-L["DAILY SALES"] = "DAILY SALES"
+L["DAILY PURCHASES"] = "平均每天采购量"
+L["DAILY SALES"] = "平均每天销量"
 L["Dalaran"] = "达拉然"
 L["Dashboard"] = "总览"
---[[Translation missing --]]
-L["Default craft value method"] = "Default craft value method"
+L["Default craft value method"] = "默认专业制品价格方案"
 L["Default material cost method"] = "默认材料成本方式"
 L["Default Price"] = "默认价格"
 L["Default price configuration"] = "默认价格配置"
@@ -16558,17 +16555,13 @@ L["Delete Group?"] = "删除分组？"
 L["Delete Operation?"] = "删除操作？"
 L["Delete Operations"] = "删除操作"
 L["Delete Operations?"] = "删除操作？"
---[[Translation missing --]]
-L["Delete Profile?"] = "Delete Profile?"
+L["Delete Profile?"] = "是否删除配置？"
 L["Delete Record?"] = "删除记录？"
---[[Translation missing --]]
-L["Delete the profile"] = "Delete the profile"
---[[Translation missing --]]
-L["Deleting this group (%s) will also remove any sub-groups attached to this group."] = "Deleting this group (%s) will also remove any sub-groups attached to this group."
+L["Delete the profile"] = "删除配置"
+L["Deleting this group (%s) will also remove any sub-groups attached to this group."] = "删除该分组(%s)会移除该分组下所有次级分组"
 L["Deposit"] = "寄存"
 L["Deposit Cost"] = "寄存费用"
---[[Translation missing --]]
-L["Deposit reagents"] = "Deposit reagents"
+L["Deposit reagents"] = "存放到材料银行"
 L["Deselect All"] = "全部取消"
 L["Destroy Next"] = "分解下一个"
 L["Destroy Value"] = "分解价值"
@@ -16619,8 +16612,7 @@ L["Don't Post Items"] = "不发布物品"
 L["Don't prompt to record trades"] = "不立即记录交易"
 --[[Translation missing --]]
 L["Down"] = "Down"
---[[Translation missing --]]
-L["Duplicate the profile"] = "Duplicate the profile"
+L["Duplicate the profile"] = "复制配置"
 --[[Translation missing --]]
 L["Duration"] = "Duration"
 --[[Translation missing --]]
@@ -16668,8 +16660,7 @@ L["Estimated deliver time"] = "预计交货时间"
 L["Estimated Profit:"] = "预计利润："
 --[[Translation missing --]]
 L["Exact Match"] = "Exact Match"
---[[Translation missing --]]
-L["Example"] = "Example"
+L["Example"] = "示例"
 L["Example Item"] = "示例项目"
 --[[Translation missing --]]
 L["Example Tooltip"] = "Example Tooltip"
@@ -16806,11 +16797,9 @@ L["Ignored Cooldowns"] = "忽略冷却"
 L["Ignored Items"] = "忽略物品"
 L["ilvl"] = "物品等级"
 L["Import"] = "导入"
---[[Translation missing --]]
-L["Import group"] = "Import group"
+L["Import group"] = "导入分组"
 L["Import Groups & Operations"] = "导入分组&操作"
---[[Translation missing --]]
-L["Import String"] = "Import String"
+L["Import String"] = "导入字符串"
 --[[Translation missing --]]
 L["Import Summary"] = "Import Summary"
 L["Import Theme"] = "导入主题"
@@ -17188,7 +17177,7 @@ L["Posting %d items for %s hours."] = "Posting %d items for %s hours."
 L["Posting %d stack(s) of %d for %s hours."] = "按%d堆叠%d且以%s小时发布"
 L["Posting at normal price."] = "正以正常价发布"
 L["Posting at whitelisted player's price."] = "正以白名单玩家价格发布"
-L["Posting at your current price."] = "正以当前价发布"
+L["Posting at your current price."] = "以当前价发布"
 L["Posting disabled."] = "禁用发布"
 L["Posting Options"] = "发布设置"
 L["Posting Price"] = "发布价格"
