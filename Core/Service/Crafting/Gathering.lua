@@ -34,9 +34,12 @@ local private = {
 -- ============================================================================
 
 function Gathering.OnInitialize()
-	if TSM.IsWowClassic() then
+	if TSM.IsWowVanillaClassic() then
 		Table.RemoveByValue(TSM.db.profile.gatheringOptions.sources, "guildBank")
 		Table.RemoveByValue(TSM.db.profile.gatheringOptions.sources, "altGuildBank")
+	end
+	if not TSM.IsWowClassic() then
+		Table.RemoveByValue(TSM.db.profile.gatheringOptions.sources, "bank")
 	end
 end
 
@@ -351,6 +354,13 @@ function private.ProcessSource(itemString, numNeed, source, sourceList)
 			end
 			return numNeed - crafterMailQuantity
 		end
+	elseif source == "bank" then
+		local bankQuantity = Inventory.GetBankQuantity(itemString)
+		if bankQuantity > 0 then
+			bankQuantity = min(numNeed, bankQuantity)
+			tinsert(sourceList, "bank/"..numNeed.."/")
+			return 0
+		end
 	elseif source == "vendor" then
 		if ItemInfo.GetVendorBuy(itemString) then
 			-- assume we can buy all we need from the vendor
@@ -370,13 +380,6 @@ function private.ProcessSource(itemString, numNeed, source, sourceList)
 				tinsert(sourceList, "altGuildBank/"..guildBankQuantity.."/"..crafter)
 			end
 			return numNeed - guildBankQuantity
-		end
-	elseif source == "bank" then
-		local bankQuantity = Inventory.GetBankQuantity(itemString) + Inventory.GetReagentBankQuantity(itemString)
-		if bankQuantity > 0 then
-			bankQuantity = min(bankQuantity, numNeed)
-			tinsert(sourceList, "bank/"..bankQuantity.."/")
-			return numNeed - bankQuantity
 		end
 	elseif source == "alt" then
 		if ItemInfo.IsSoulbound(itemString) then
@@ -533,7 +536,7 @@ end
 
 function private.GetCrafterInventoryQuantity(itemString)
 	local crafter = TSM.db.factionrealm.gatheringContext.crafter
-	return Inventory.GetBagQuantity(itemString, crafter)
+	return Inventory.GetBagQuantity(itemString, crafter) + (not TSM.IsWowClassic() and Inventory.GetReagentBankQuantity(itemString, crafter) + Inventory.GetBankQuantity(itemString, crafter) or 0)
 end
 
 function private.HandleNumHave(itemString, numNeed, numHave)
