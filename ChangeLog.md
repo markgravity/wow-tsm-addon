@@ -1,7 +1,6 @@
-## v4.11.13 Changes
+## v4.11.14 Changes
 
-* [Classic/BCC] Added Bank gathering source
-* [BCC] Implemented Guild Bank support
-* Some crafting/inventory optimisations
+* [All] Added proper support for posting bid only auctions by setting the buyout to zero
+* [All] Fixed combat tainting issues with the merchant window and the tasklist
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)
