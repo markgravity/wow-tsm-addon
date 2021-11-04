@@ -355,11 +355,11 @@ function private.ProcessSource(itemString, numNeed, source, sourceList)
 			return numNeed - crafterMailQuantity
 		end
 	elseif source == "bank" then
-		local bankQuantity = Inventory.GetBankQuantity(itemString)
+		local bankQuantity = Inventory.GetBankQuantity(itemString) + Inventory.GetReagentBankQuantity(itemString)
 		if bankQuantity > 0 then
-			bankQuantity = min(numNeed, bankQuantity)
-			tinsert(sourceList, "bank/"..numNeed.."/")
-			return 0
+			bankQuantity = min(bankQuantity, numNeed)
+			tinsert(sourceList, "bank/"..bankQuantity.."/")
+			return numNeed - bankQuantity
 		end
 	elseif source == "vendor" then
 		if ItemInfo.GetVendorBuy(itemString) then
