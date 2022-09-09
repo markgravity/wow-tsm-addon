@@ -63,24 +63,24 @@ local ARMOR_TYPES = {
 	[GetItemSubClassInfo(LE_ITEM_CLASS_ARMOR, LE_ITEM_ARMOR_CLOTH)] = true,
 }
 local INVENTORY_TYPES = {
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_HEAD_TYPE or Enum.InventoryType.IndexHeadType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_SHOULDER_TYPE or Enum.InventoryType.IndexShoulderType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_CHEST_TYPE or Enum.InventoryType.IndexChestType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_WAIST_TYPE or Enum.InventoryType.IndexWaistType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_LEGS_TYPE or Enum.InventoryType.IndexLegsType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_FEET_TYPE or Enum.InventoryType.IndexFeetType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_WRIST_TYPE or Enum.InventoryType.IndexWristType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_HAND_TYPE or Enum.InventoryType.IndexHandType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexHeadType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexShoulderType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexChestType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexWaistType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexLegsType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexFeetType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexWristType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexHandType),
 }
 local GENERIC_TYPES = {
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_NECK_TYPE or Enum.InventoryType.IndexNeckType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_CLOAK_TYPE or Enum.InventoryType.IndexCloakType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_FINGER_TYPE or Enum.InventoryType.IndexFingerType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_TRINKET_TYPE or Enum.InventoryType.IndexTrinketType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_HOLDABLE_TYPE or Enum.InventoryType.IndexHoldableType),
-	GetItemInventorySlotInfo(TSM.IsWowClassic() and LE_INVENTORY_TYPE_BODY_TYPE or Enum.InventoryType.IndexBodyType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexNeckType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexCloakType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexFingerType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexTrinketType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexHoldableType),
+	GetItemInventorySlotInfo(Enum.InventoryType.IndexBodyType),
 }
-local MAX_LEVEL = TSM.IsWowBCClassic() and 70 or 60
+local MAX_LEVEL = TSM.IsWowWrathClassic() and 80 or 60
 
 
 
@@ -435,7 +435,7 @@ function private.GetAdvancedFrame()
 							:AddChild(UIElements.New("Input", "input")
 								:SetWidth(178)
 								:SetMargin(0, 4, 0, 0)
-								:SetBackgroundColor("PRIMARY_BG_ALT")
+								:SetBackgroundColor("ACTIVE_BG")
 								:SetValidateFunc("NUMBER", "0:2000")
 								:SetValue(0)
 							)
@@ -1225,7 +1225,7 @@ end
 
 function private.ResetButtonOnClick(button)
 	local headerFrame = button:GetElement("__parent.__parent.search.header")
-	headerFrame:GetElement("keyword"):SetText("")
+	headerFrame:GetElement("keyword"):SetValue("")
 	headerFrame:Draw()
 	local searchFrame = button:GetElement("__parent.__parent.search.body")
 	searchFrame:GetElement("level.slider"):SetValue(0, MAX_LEVEL)
@@ -2274,11 +2274,8 @@ function private.FSMCreate()
 				local itemString = context.findAuction:GetItemString()
 				local maxQuantity = context.searchContext:GetMaxCanBuy(itemString)
 				if TSM.IsWowClassic() then
-					if maxQuantity then
-						maxQuantity = maxQuantity / context.findAuction:GetQuantities()
-					end
 					context.findResult = result
-					context.numFound = min(#result, maxQuantity or math.huge)
+					context.numFound = min(#result, maxQuantity and Math.Ceil(maxQuantity / context.findAuction:GetQuantities()) or math.huge)
 					context.maxQuantity = maxQuantity or 1
 					context.defaultBuyQuantity = context.numFound
 				else
@@ -2378,7 +2375,7 @@ function private.FSMCreate()
 				context.progressText = progressText
 				context.progressPaused = false
 				context.postDisabled = not canPost
-				if numCanBuy == 0 or isAltPlayer or (not TSM.IsWowClassic() and numConfirming > 0) then
+				if numCanBuy == 0 or isAltPlayer or numConfirming > 0 then
 					context.bidDisabled = true
 					context.buyoutDisabled = true
 					context.cancelShown = isPlayer and not TSM.IsWowClassic()
@@ -2415,7 +2412,7 @@ function private.FSMCreate()
 				end
 				if TSM.IsWowClassic() then
 					local _, rawLink = context.findAuction:GetLinks()
-					if msg == LE_GAME_ERR_AUCTION_HIGHER_BID or msg == LE_GAME_ERR_ITEM_NOT_FOUND or msg == LE_GAME_ERR_AUCTION_BID_OWN or msg == LE_GAME_ERR_NOT_ENOUGH_MONEY or msg == LE_GAME_ERR_ITEM_MAX_COUNT then
+					if msg == LE_GAME_ERR_AUCTION_DATABASE_ERROR or msg == LE_GAME_ERR_AUCTION_HIGHER_BID or msg == LE_GAME_ERR_ITEM_NOT_FOUND or msg == LE_GAME_ERR_AUCTION_BID_OWN or msg == LE_GAME_ERR_NOT_ENOUGH_MONEY or msg == LE_GAME_ERR_ITEM_MAX_COUNT then
 						-- failed to buy an auction
 						return "ST_CONFIRMING_BID_BUY", false
 					elseif msg == format(ERR_AUCTION_WON_S, ItemInfo.GetName(rawLink)) or (context.numBid > 0 and msg == ERR_AUCTION_BID_PLACED) then

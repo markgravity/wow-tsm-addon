@@ -1,7 +1,5 @@
-## v4.11.24 Changes
+## v4.11.45 Changes
 
-* [Retail] Added more Bonus IDs
-* [Retail] Bid Sniper fix
-* Operation related performace tweaks
+* [Classic] Fixed error while buying auctions
 
 [Known Issues](https://support.tradeskillmaster.com/en_US/known_issues)
