@@ -14,8 +14,22 @@ local ItemInfo = TSM.Include("Service.ItemInfo")
 local CustomPrice = TSM.Include("Service.CustomPrice")
 local Inventory = TSM.Include("Service.Inventory")
 TSM_API = {}
+PTSM = TSM
 local private = {}
 
+FakeRow = {}
+function FakeRow:GetBaseItemString()
+	return "i:36901"
+end
+
+function step1()
+	local _, itemLink = GetItemInfo("Goldclover")
+	TSM.UI.AuctionUI.Shopping.StartItemSearch(itemLink)
+end
+
+function step2 (args)
+	private.frame:GetElement("scan.auctions"):SetSelectionByItemString("i:36901")
+end
 
 
 -- ============================================================================

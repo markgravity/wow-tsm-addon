@@ -16,6 +16,7 @@ local Vararg = TSM.Include("Util.Vararg")
 local Analytics = TSM.Include("Util.Analytics")
 local Math = TSM.Include("Util.Math")
 local Debug = TSM.Include("Util.Debug")
+local DefaultUI = TSM.Include("Service.DefaultUI")
 local APIWrapper = LibTSMClass.DefineClass("APIWrapper")
 local private = {
 	wrappers = {},
@@ -24,12 +25,13 @@ local private = {
 	sortsPartsTemp = {},
 	itemKeyPartsTemp = {},
 	searchQueryAPITimes = {},
-	isAHOpen = false,
 	lastResponseReceived = 0,
 	hookedTime = {},
 	lastAuctionCanceledAuctionId = nil,
 	lastAuctionCanceledTime = 0,
 	auctionIdUpdateCallbacks = {},
+	canSendAuctionQueryValue = true,
+	canSendAuctionQueryCallbacks = {},
 }
 local API_TIMEOUT = 5
 local GET_ALL_TIMEOUT = 30
@@ -75,6 +77,23 @@ local API_EVENT_INFO = TSM.IsWowClassic() and
 			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..LE_GAME_ERR_NOT_ENOUGH_MONEY] = { result = false },
 			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..LE_GAME_ERR_ITEM_MAX_COUNT] = { result = false },
 		},
+		CancelAuction = {
+			["CHAT_MSG_SYSTEM"..GENERIC_EVENT_SEP..ERR_AUCTION_REMOVED] = { result = true },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..LE_GAME_ERR_AUCTION_DATABASE_ERROR] = { result = false },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..LE_GAME_ERR_ITEM_NOT_FOUND] = { result = false },
+		},
+		PostAuction = {
+			["CHAT_MSG_SYSTEM"..GENERIC_EVENT_SEP..ERR_AUCTION_STARTED] = { result = true },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..LE_GAME_ERR_AUCTION_DATABASE_ERROR] = { result = false },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..LE_GAME_ERR_ITEM_NOT_FOUND] = { result = false },
+			-- TODO: Somehow convey that we can't retry these
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..ERR_AUCTION_REPAIR_ITEM] = { result = false },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..ERR_AUCTION_LIMITED_DURATION_ITEM] = { result = false },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..ERR_AUCTION_USED_CHARGES] = { result = false },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..ERR_AUCTION_WRAPPED_ITEM] = { result = false },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..ERR_AUCTION_BAG] = { result = false },
+			["UI_ERROR_MESSAGE"..GENERIC_EVENT_SEP..ERR_NOT_ENOUGH_MONEY] = { result = false },
+		}
 	} or
 	{ -- Retail
 		SendBrowseQuery = {
@@ -183,15 +202,16 @@ local API_EVENT_INFO = TSM.IsWowClassic() and
 -- ============================================================================
 
 AuctionHouseWrapper:OnModuleLoad(function()
-	Event.Register("AUCTION_HOUSE_SHOW", private.AuctionHouseShowHandler)
-	Event.Register("AUCTION_HOUSE_CLOSED", private.AuctionHouseClosedHandler)
+	DefaultUI.RegisterAuctionHouseVisibleCallback(private.AuctionHouseClosed, false)
 
 	-- setup wrappers
 	for apiName in pairs(API_EVENT_INFO) do
 		private.wrappers[apiName] = APIWrapper(apiName)
 	end
 
-	if not TSM.IsWowClassic() then
+	if TSM.IsWowClassic() then
+		Delay.AfterTime("CHECK_CAN_SEND_AUCTION_QUERY", 0.1, private.CheckCanSendAuctionQuery, 0.1)
+	else
 		-- extra hooks to track search query calls since they are limited
 		hooksecurefunc(C_AuctionHouse, "SendSearchQuery", function()
 			tinsert(private.searchQueryAPITimes, GetTime())
@@ -226,8 +246,8 @@ function AuctionHouseWrapper.RegisterAuctionIdUpdateCallback(callback)
 	tinsert(private.auctionIdUpdateCallbacks, callback)
 end
 
-function AuctionHouseWrapper.IsOpen()
-	return private.isAHOpen
+function AuctionHouseWrapper.RegisterCanSendAuctionQueryCallback(callback)
+	tinsert(private.canSendAuctionQueryCallbacks, callback)
 end
 
 function AuctionHouseWrapper.GetAndResetTotalHookedTime()
@@ -313,9 +333,10 @@ function AuctionHouseWrapper.QueryOwnedAuctions(sorts)
 end
 
 function AuctionHouseWrapper.CancelAuction(auctionId)
-	assert(not TSM.IsWowClassic())
-	-- if QueryOwnedAuctions is pending, just cancel it
-	private.wrappers.QueryOwnedAuctions:CancelIfPending()
+	if not TSM.IsWowClassic() then
+		-- if QueryOwnedAuctions is pending, just cancel it
+		private.wrappers.QueryOwnedAuctions:CancelIfPending()
+	end
 	if not private.CheckAllIdle() then
 		return
 	end
@@ -347,6 +368,21 @@ function AuctionHouseWrapper.PlaceBid(auctionId, bidBuyout)
 	else
 		return private.wrappers.PlaceBid:Start(auctionId, bidBuyout)
 	end
+end
+
+function AuctionHouseWrapper.PostAuction(bag, slot, bid, buyout, postTime, stackSize, quantity)
+	assert(TSM.IsWowClassic())
+	if not private.CheckAllIdle() then
+		return
+	end
+	-- need to set the duration in the default UI to avoid Blizzard errors
+	AuctionFrameAuctions.duration = postTime
+	ClearCursor()
+	PickupContainerItem(bag, slot)
+	ClickAuctionSellItemButton(AuctionsItemButton, "LeftButton")
+	local result = private.wrappers.PostAuction:Start(bid, buyout, postTime, stackSize, quantity)
+	ClearCursor()
+	return result
 end
 
 function AuctionHouseWrapper.PostItem(itemLocation, postTime, stackSize, bid, buyout)
@@ -464,7 +500,7 @@ function APIWrapper._HandleAPICall(self, ...)
 	end
 	Vararg.IntoTable(self._args, ...)
 	local timeout = nil
-	if not private.isAHOpen then
+	if not DefaultUI.IsAuctionHouseVisible() then
 		timeout = 0
 	elseif self._name == "QueryAuctionItems" and select(7, ...) then
 		timeout = GET_ALL_TIMEOUT
@@ -571,12 +607,7 @@ end
 -- Private Helper Functions
 -- ============================================================================
 
-function private.AuctionHouseShowHandler()
-	private.isAHOpen = true
-end
-
-function private.AuctionHouseClosedHandler()
-	private.isAHOpen = false
+function private.AuctionHouseClosed()
 	for _, wrapper in pairs(private.wrappers) do
 		wrapper:CancelIfPending()
 	end
@@ -678,7 +709,6 @@ end
 
 function private.EventHandler(eventName, ...)
 	-- reduce the log spam of generic events by combining the message with the name and discarding arguments
-	local genericEventArg = nil
 	if eventName == "UI_ERROR_MESSAGE" and select(1, ...) == ERR_AUCTION_DATABASE_ERROR then
 		-- log an analytics event for "Internal Auction Error" messages
 		for apiName, wrapper in pairs(private.wrappers) do
@@ -689,8 +719,9 @@ function private.EventHandler(eventName, ...)
 		end
 	end
 	if GENERIC_EVENTS[eventName] then
-		genericEventArg = select(GENERIC_EVENTS[eventName], ...)
+		local genericEventArg = select(GENERIC_EVENTS[eventName], ...)
 		assert(genericEventArg)
+		genericEventArg = tostring(genericEventArg)
 		if not private.events[eventName][genericEventArg] then
 			return
 		end
@@ -757,4 +788,15 @@ end
 
 function private.GetAnalyticsRegionRealm()
 	return TSM.GetRegion().."-"..gsub(GetRealmName(), "\226", "'")
+end
+
+function private.CheckCanSendAuctionQuery()
+	assert(TSM.IsWowClassic())
+	local value = CanSendAuctionQuery() and true or false
+	if value ~= private.canSendAuctionQueryValue then
+		private.canSendAuctionQueryValue = value
+		for _, callback in ipairs(private.canSendAuctionQueryCallbacks) do
+			callback(value)
+		end
+	end
 end

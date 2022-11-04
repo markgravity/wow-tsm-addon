@@ -279,6 +279,12 @@ end
 -- @tparam AuctionScrollingTable self The auction scrolling table object
 -- @param selection The selected result row or nil to clear the selection
 -- @treturn AuctionScrollingTable The auction scrolling table object
+function AuctionScrollingTable.SetSelectionByItemString(self, itemString)
+	local selection = self._firstSubRowByItem[itemString]
+	if selection then
+		self:SetSelection(selection)
+	end
+end
 function AuctionScrollingTable.SetSelection(self, selection)
 	if not selection then
 		self._selectionBaseItemString = nil
