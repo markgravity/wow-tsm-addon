@@ -141,6 +141,20 @@ function Shopping.SetBuyingFailedObserver(observer)
 	private.buyingFailedObserver = observer
 end
 
+
+function Shopping.SetPostAuction(postTime, bid, buyout, success, failure)
+	local frame = private.postingFrame
+	if not frame then return end
+
+	frame:GetElement("bid.input"):SetValue(Money.ToString(bid, nil, "OPT_83_NO_COPPER"))
+	frame:GetElement("buyout.input"):SetValue(Money.ToString(buyout, nil, "OPT_83_NO_COPPER"))
+	frame:GetElement("duration.toggle"):SetOption(TSM.CONST.AUCTION_DURATIONS[postTime], true)
+
+	frame:Draw()
+	private.postAuctionSuccess = success
+	private.postAuctionFailure = failure
+end
+
 -- ============================================================================
 -- Shopping UI
 -- ============================================================================
@@ -610,7 +624,7 @@ function private.GetScanFrame()
 				:SetProgressIconHidden(false)
 				:SetText(L["Starting Scan..."])
 			)
-			:AddChild(UIElements.New("ActionButton", "postBtn")
+			:AddChild(UIElements.NewNamed("ActionButton", "postBtn", "TSMShoppingPostBtn")
 				:SetSize(107, 24)
 				:SetMargin(0, 8, 0, 0)
 				:SetText(L["Post"])
@@ -694,7 +708,7 @@ function private.GetViewContentFrame(_, path)
 end
 
 function private.GetPostingFrame()
-	return UIElements.New("Frame", "posting")
+	private.postingFrame = UIElements.New("Frame", "posting")
 		:SetLayout("VERTICAL")
 		:AddChild(UIElements.New("Frame", "header")
 			:SetLayout("HORIZONTAL")
@@ -750,7 +764,7 @@ function private.GetPostingFrame()
 				:SetValue(1)
 				:SetScript("OnValueChanged", private.StackNumInputOnValueChanged)
 			)
-			:AddChild(UIElements.New("ActionButton", "maxBtn")
+			:AddChild(UIElements.NewNamed("ActionButton", "maxBtn", "TSMShoppingMaxStackNumBtn")
 				:SetWidth(64)
 				:SetText(L["Max"])
 				:SetScript("OnClick", private.MaxStackNumBtnOnClick)
@@ -772,7 +786,7 @@ function private.GetPostingFrame()
 				:SetValidateFunc("NUMBER", "0:5000")
 				:SetScript("OnValueChanged", private.QuantityInputOnValueChanged)
 			)
-			:AddChild(UIElements.New("ActionButton", "maxBtn")
+			:AddChild(UIElements.NewNamed("ActionButton", "maxBtn", "TSMShoppingMaxQuantityNumBtn")
 				:SetWidth(64)
 				:SetText(L["Max"])
 				:SetScript("OnClick", private.MaxQuantityBtnOnClick)
@@ -880,12 +894,14 @@ function private.GetPostingFrame()
 				:SetJustifyH("RIGHT")
 			)
 		)
-		:AddChild(UIElements.New("ActionButton", "confirmBtn")
+		:AddChild(UIElements.NewNamed("ActionButton", "confirmBtn", "TSMShoppingPostAuctionBtn")
 			:SetHeight(26)
 			:SetText(L["Post Auction"])
 			:SetScript("OnClick", private.PostButtonOnClick)
 		)
 		:SetScript("OnUpdate", private.PostingFrameOnUpdate)
+
+	return private.postingFrame
 end
 
 function private.GetPostSelectionFrame()
@@ -2637,6 +2653,9 @@ function private.FSMCreate()
 					UpdateScanFrame(context)
 				else
 					Log.PrintUser(L["Failed to post auction due to the auction house being busy. Ensure no other addons are scanning the AH and try again."])
+					if private.postAuctionFailure then
+						private.postAuctionFailure()
+					end
 					return "ST_RESULTS"
 				end
 			end)
@@ -2648,8 +2667,14 @@ function private.FSMCreate()
 				context.pendingFuture = nil
 				if result then
 					AuctionTracking.QueryOwnedAuctions()
+					if private.postAuctionSuccess then
+						private.postAuctionSuccess()
+					end
 				else
 					Log.PrintUser(L["Failed to post auction due to the auction house being busy. Ensure no other addons are scanning the AH and try again."])
+					if private.postAuctionFailure then
+						private.postAuctionFailure()
+					end
 				end
 				return "ST_RESULTS"
 			end)

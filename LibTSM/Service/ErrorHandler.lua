@@ -108,6 +108,9 @@ function ErrorHandler.SaveReports(appDB)
 	end
 end
 
+function ErrorHandler.IsVisible()
+	return private.errorFrame and private.errorFrame:IsVisible()
+end
 
 
 -- ============================================================================
