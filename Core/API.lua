@@ -19,8 +19,8 @@ local AuctionTracking = TSM.Include("Service.AuctionTracking")
 local BagTracking = TSM.Include("Service.BagTracking")
 local Settings = TSM.Include("Service.Settings")
 TSM_API = {}
+PTSM = TSM
 local private = {}
-
 
 
 -- ============================================================================

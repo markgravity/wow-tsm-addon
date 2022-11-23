@@ -133,7 +133,13 @@ function Shopping.RegisterUpdateCallback(callback)
 	tinsert(private.updateCallbacks, callback)
 end
 
+function Shopping.GetFrame()
+	return private.frame
+end
 
+function Shopping.SetBuyingFailedObserver(observer)
+	private.buyingFailedObserver = observer
+end
 
 -- ============================================================================
 -- Shopping UI
@@ -2468,6 +2474,9 @@ function private.FSMCreate()
 					-- The list of auctions changed, so rescan
 					local _, rawLink = context.findAuction:GetLinks()
 					Log.PrintfUser(L["Failed to buy auction of %s."], rawLink)
+					if private.buyingFailedObserver then
+						private.buyingFailedObserver()
+					end
 					return "ST_RESULTS"
 				end
 				local future = context.auctionScan:PlaceBidOrBuyout(index, buyout, context.findAuction, quantity)
@@ -2482,6 +2491,9 @@ function private.FSMCreate()
 				else
 					local _, rawLink = context.findAuction:GetLinks()
 					Log.PrintfUser(L["Failed to buy auction of %s."], rawLink)
+					if private.buyingFailedObserver then
+						private.buyingFailedObserver()
+					end
 					return "ST_BUYING"
 				end
 			end)
@@ -2505,6 +2517,9 @@ function private.FSMCreate()
 					end
 					context.lastBuyQuantity = nil
 					context.lastBuyIndex = nil
+					if private.buyingFailedObserver then
+						private.buyingFailedObserver()
+					end
 					return "ST_BUYING"
 				end
 			end)
@@ -2550,6 +2565,9 @@ function private.FSMCreate()
 					end
 					context.lastBuyQuantity = nil
 					context.lastBuyIndex = nil
+					if private.buyingFailedObserver then
+						private.buyingFailedObserver()
+					end
 					return "ST_BUYING"
 				end
 			end)
