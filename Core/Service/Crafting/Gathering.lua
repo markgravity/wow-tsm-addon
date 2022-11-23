@@ -257,17 +257,7 @@ function private.UpdateDB()
 		-- always add a task to get mail on the crafter if possible
 		numNeed = private.ProcessSource(itemString, numNeed, "openMail", sourceList)
 		assert(numNeed >= 0)
-
-		local sources = {}
-		if TSM.IsWowClassic() then
-			tinsert(sources, "bank")
-		end
-
 		for _, source in ipairs(TSM.db.profile.gatheringOptions.sources) do
-			tinsert(sources, source)
-		end
-
-		for _, source in ipairs(sources) do
 			local isCraftSource = source == "craftProfit" or source == "craftNoProfit"
 			local ignoreSource = false
 			if isCraftSource then
@@ -355,11 +345,11 @@ function private.ProcessSource(itemString, numNeed, source, sourceList)
 			return numNeed - crafterMailQuantity
 		end
 	elseif source == "bank" then
-		local bankQuantity = Inventory.GetBankQuantity(itemString) + Inventory.GetReagentBankQuantity(itemString)
+		local bankQuantity = Inventory.GetBankQuantity(itemString)
 		if bankQuantity > 0 then
-			bankQuantity = min(bankQuantity, numNeed)
-			tinsert(sourceList, "bank/"..bankQuantity.."/")
-			return numNeed - bankQuantity
+			bankQuantity = min(numNeed, bankQuantity)
+			tinsert(sourceList, "bank/"..numNeed.."/")
+			return 0
 		end
 	elseif source == "vendor" then
 		if ItemInfo.GetVendorBuy(itemString) then

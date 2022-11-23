@@ -147,9 +147,6 @@ function OverlayApplicationFrame.Draw(self)
 	self:WipeAnchors()
 	self:AddAnchor("TOPRIGHT", self._contextTable.topRightX, self._contextTable.topRightY)
 
-	local frame = self:_GetBaseFrame()
-	frame:SetToplevel(true)
-	
 	self.__super:Draw()
 end
 
