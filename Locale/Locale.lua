@@ -1863,9 +1863,9 @@ L["Deposit Cost"] = "Anzahlungs-Kosten"
 L["Deposit reagents"] = "Deposit reagents"
 L["Deselect All"] = "Alles abwählen"
 L["Destroy Next"] = "Nächstes zerstören"
-L["Destroy Value"] = "Zerstörungswert"
 --[[Translation missing --]]
 L["Destroy value"] = "Destroy value"
+L["Destroy Value"] = "Zerstörungswert"
 --[[Translation missing --]]
 L["Destroy value source"] = "Destroy value source"
 L["Destroying"] = "Destroying"
@@ -2279,8 +2279,8 @@ L["Max Price"] = "Max. Preis"
 L["Max quantity"] = "Max. Menge"
 L["Max restock quantity"] = "Max. Menge Nachschub"
 L["Max Sell Price"] = "Max. Verkaufspreis"
-L["Max Shopping Price"] = "Max. Einkaufspreis"
 L["Max shopping price"] = "Max. Einkaufspreis"
+L["Max Shopping Price"] = "Max. Einkaufspreis"
 L["Max sniper price"] = "Max. Sniper Preis"
 L["Maximum amount already posted."] = "Maximale Anzahl von Auktionen bereits erstellt."
 --[[Translation missing --]]
@@ -2305,9 +2305,9 @@ L["Min 0 - Max 20"] = "Min 0 - Max 20"
 --[[Translation missing --]]
 L["Min 0.5 - Max 10"] = "Min 0.5 - Max 10"
 L["Min Buy Price"] = "Min Kaufpreis"
-L["Min Buyout"] = "Min Sofortkaufpreis"
 --[[Translation missing --]]
 L["Min buyout"] = "Min buyout"
+L["Min Buyout"] = "Min Sofortkaufpreis"
 --[[Translation missing --]]
 L["Min number of expires"] = "Min number of expires"
 --[[Translation missing --]]
@@ -2682,9 +2682,9 @@ L["Sale"] = "Verkauf"
 L["Sale Data"] = "Sale Data"
 L["Sale information"] = "Verkaufsinformationen"
 L["Sale Price"] = "Verkaufspreis"
-L["Sale Rate"] = "Verkaufsrate"
 --[[Translation missing --]]
 L["Sale rate"] = "Sale rate"
+L["Sale Rate"] = "Verkaufsrate"
 L["Sales"] = "Umsatz"
 L["SALES"] = "VERKÄUFE"
 L["Save"] = "Speichern"
@@ -3845,9 +3845,9 @@ L["Deposit reagents"] = "Deposit reagents"
 L["Deselect All"] = "Deselect All"
 --[[Translation missing --]]
 L["Destroy Next"] = "Destroy Next"
-L["Destroy Value"] = "Valor de Destrucción"
 --[[Translation missing --]]
 L["Destroy value"] = "Destroy value"
+L["Destroy Value"] = "Valor de Destrucción"
 --[[Translation missing --]]
 L["Destroy value source"] = "Destroy value source"
 --[[Translation missing --]]
@@ -4409,13 +4409,13 @@ L["Many commonly-used actions in TSM can be added to a macro and bound to your s
 --[[Translation missing --]]
 L["Map Ping"] = "Map Ping"
 --[[Translation missing --]]
-L["Market Value"] = "Market Value"
---[[Translation missing --]]
 L["Market value"] = "Market value"
 --[[Translation missing --]]
-L["Market value price source"] = "Market value price source"
+L["Market Value"] = "Market Value"
 --[[Translation missing --]]
 L["Market Value Price Source"] = "Market Value Price Source"
+--[[Translation missing --]]
+L["Market value price source"] = "Market value price source"
 --[[Translation missing --]]
 L["Mat cost"] = "Mat cost"
 --[[Translation missing --]]
@@ -4451,9 +4451,9 @@ L["Max restock quantity"] = "Max restock quantity"
 --[[Translation missing --]]
 L["Max Sell Price"] = "Max Sell Price"
 --[[Translation missing --]]
-L["Max Shopping Price"] = "Max Shopping Price"
---[[Translation missing --]]
 L["Max shopping price"] = "Max shopping price"
+--[[Translation missing --]]
+L["Max Shopping Price"] = "Max Shopping Price"
 --[[Translation missing --]]
 L["Max sniper price"] = "Max sniper price"
 --[[Translation missing --]]
@@ -4487,9 +4487,9 @@ L["Min 0.5 - Max 10"] = "Min 0.5 - Max 10"
 --[[Translation missing --]]
 L["Min Buy Price"] = "Min Buy Price"
 --[[Translation missing --]]
-L["Min Buyout"] = "Min Buyout"
---[[Translation missing --]]
 L["Min buyout"] = "Min buyout"
+--[[Translation missing --]]
+L["Min Buyout"] = "Min Buyout"
 --[[Translation missing --]]
 L["Min number of expires"] = "Min number of expires"
 --[[Translation missing --]]
@@ -5016,9 +5016,9 @@ L["Sale information"] = "Sale information"
 --[[Translation missing --]]
 L["Sale Price"] = "Sale Price"
 --[[Translation missing --]]
-L["Sale Rate"] = "Sale Rate"
---[[Translation missing --]]
 L["Sale rate"] = "Sale rate"
+--[[Translation missing --]]
+L["Sale Rate"] = "Sale Rate"
 --[[Translation missing --]]
 L["Sales"] = "Sales"
 --[[Translation missing --]]
@@ -6268,8 +6268,8 @@ L["Deposit reagents"] = "Deposit reagents"
 L["Deselect All"] = "Desmarcar todo"
 --[[Translation missing --]]
 L["Destroy Next"] = "Destroy Next"
-L["Destroy Value"] = "Borrar Valor"
 L["Destroy value"] = "Borrar valor"
+L["Destroy Value"] = "Borrar Valor"
 --[[Translation missing --]]
 L["Destroy value source"] = "Destroy value source"
 --[[Translation missing --]]
@@ -6741,13 +6741,13 @@ L["Management Options"] = "Opciones de Manejo"
 --[[Translation missing --]]
 L["Many commonly-used actions in TSM can be added to a macro and bound to your scroll wheel. Use the options below to setup this macro and scroll wheel binding."] = "Many commonly-used actions in TSM can be added to a macro and bound to your scroll wheel. Use the options below to setup this macro and scroll wheel binding."
 L["Map Ping"] = "Ping en Mapa"
-L["Market Value"] = "Valor del Mercado"
 --[[Translation missing --]]
 L["Market value"] = "Market value"
---[[Translation missing --]]
-L["Market value price source"] = "Market value price source"
+L["Market Value"] = "Valor del Mercado"
 --[[Translation missing --]]
 L["Market Value Price Source"] = "Market Value Price Source"
+--[[Translation missing --]]
+L["Market value price source"] = "Market value price source"
 --[[Translation missing --]]
 L["Mat cost"] = "Mat cost"
 --[[Translation missing --]]
@@ -8262,8 +8262,8 @@ L["Deposit Cost"] = "Coût du dépôt"
 L["Deposit reagents"] = "Dépôt des composants"
 L["Deselect All"] = "Tout désélectionner"
 L["Destroy Next"] = "Détruire le suivant"
-L["Destroy Value"] = "Valeur à la destruction"
 L["Destroy value"] = "Valeur à la destruction"
+L["Destroy Value"] = "Valeur à la destruction"
 L["Destroy value source"] = "Source de la valeur à la destruction"
 L["Destroying"] = "Détruire"
 L["Destroying %s button"] = "Bouton %s de destruction"
@@ -9728,8 +9728,8 @@ L["Deposit Cost"] = "Costo di Deposito"
 L["Deposit reagents"] = "Deposito reagenti"
 L["Deselect All"] = "Deseleziona Tutto"
 L["Destroy Next"] = "Distruggi il Prossimo"
-L["Destroy Value"] = "Valore Distruzione"
 L["Destroy value"] = "valore Distruzione"
+L["Destroy Value"] = "Valore Distruzione"
 L["Destroy value source"] = "Fonte del valore di Distruzione"
 L["Destroying"] = "Distruggendo"
 L["Destroying %s button"] = "Distruggendo %s button"
@@ -10116,8 +10116,8 @@ L["Max Price"] = "Max Price"
 L["Max quantity"] = "Quantità Massima"
 L["Max restock quantity"] = "Quantità Massima di Rifornimento"
 L["Max Sell Price"] = "Prezzo di Vendita Massimo"
-L["Max Shopping Price"] = "Prezzo Massimo di Acquisto"
 L["Max shopping price"] = "Prezzo massimo di acquisto"
+L["Max Shopping Price"] = "Prezzo Massimo di Acquisto"
 L["Max sniper price"] = "Prezzo massimo di sniper"
 L["Maximum amount already posted."] = "Quantità massima già pubblicata."
 L["Maximum auction price"] = "Prezzo massimo d'asta"
@@ -10136,9 +10136,9 @@ L["Min 0.5 - Max 10"] = "Min 0.5 - Max 10"
 --[[Translation missing --]]
 L["Min Buy Price"] = "Min Buy Price"
 --[[Translation missing --]]
-L["Min Buyout"] = "Min Buyout"
---[[Translation missing --]]
 L["Min buyout"] = "Min buyout"
+--[[Translation missing --]]
+L["Min Buyout"] = "Min Buyout"
 L["Min number of expires"] = "Numero minimo di scadenze"
 L["Min profit amount"] = "Importo del profitto minimo"
 L["Min restock quantity"] = "Quantità minima di rifornimento"
@@ -10447,8 +10447,8 @@ L["Sale"] = "Vendita"
 L["Sale Data"] = "Dati Vendita"
 L["Sale information"] = "Informazioni Vendita"
 L["Sale Price"] = "Prezzo di Vendita"
-L["Sale Rate"] = "Tasso di Vendita"
 L["Sale rate"] = "Tasso di Vendita"
+L["Sale Rate"] = "Tasso di Vendita"
 L["Sales"] = "Vendite"
 L["SALES"] = "VENDITE"
 L["Save"] = "Salva"
@@ -11280,9 +11280,9 @@ L["Deposit reagents"] = "재료 은행"
 L["Deselect All"] = "모두 선택 해제하기"
 L["Destroy Next"] = "다음 물건 뽀각하기"
 --[[Translation missing --]]
-L["Destroy Value"] = "Destroy Value"
---[[Translation missing --]]
 L["Destroy value"] = "Destroy value"
+--[[Translation missing --]]
+L["Destroy Value"] = "Destroy Value"
 --[[Translation missing --]]
 L["Destroy value source"] = "Destroy value source"
 L["Destroying"] = "마력 추출"
@@ -11734,9 +11734,9 @@ L["Max quantity"] = "최대 수량"
 L["Max restock quantity"] = "Max restock quantity"
 L["Max Sell Price"] = "최대 판매 가격"
 --[[Translation missing --]]
-L["Max Shopping Price"] = "Max Shopping Price"
---[[Translation missing --]]
 L["Max shopping price"] = "Max shopping price"
+--[[Translation missing --]]
+L["Max Shopping Price"] = "Max Shopping Price"
 --[[Translation missing --]]
 L["Max sniper price"] = "Max sniper price"
 --[[Translation missing --]]
@@ -11767,8 +11767,8 @@ L["Min 0 - Max 20"] = "Min 0 - Max 20"
 L["Min 0.5 - Max 10"] = "Min 0.5 - Max 10"
 --[[Translation missing --]]
 L["Min Buy Price"] = "Min Buy Price"
-L["Min Buyout"] = "최소 즉시 구매"
 L["Min buyout"] = "최소 즉시 구매"
+L["Min Buyout"] = "최소 즉시 구매"
 --[[Translation missing --]]
 L["Min number of expires"] = "Min number of expires"
 --[[Translation missing --]]
@@ -12162,8 +12162,8 @@ L["Sale"] = "판매"
 L["Sale Data"] = "판매 데이터"
 L["Sale information"] = "판매 정보"
 L["Sale Price"] = "판매 가격"
-L["Sale Rate"] = "판매율"
 L["Sale rate"] = "판매율"
+L["Sale Rate"] = "판매율"
 L["Sales"] = "판매"
 L["SALES"] = "소득"
 L["Save"] = "저장"
@@ -13165,9 +13165,9 @@ L["Deposit reagents"] = "Depositar reagentes"
 --[[Translation missing --]]
 L["Deselect All"] = "Deselect All"
 L["Destroy Next"] = "Destruir Próximo"
-L["Destroy Value"] = "Valor de Destruição"
 --[[Translation missing --]]
 L["Destroy value"] = "Destroy value"
+L["Destroy Value"] = "Valor de Destruição"
 --[[Translation missing --]]
 L["Destroy value source"] = "Destroy value source"
 L["Destroying"] = "Destruição"
@@ -13563,11 +13563,11 @@ L["Make Operations Global?"] = "Tornar Operações Globais?"
 L["Management Options"] = "Opções de Gerenciamento"
 L["Many commonly-used actions in TSM can be added to a macro and bound to your scroll wheel. Use the options below to setup this macro and scroll wheel binding."] = "Várias tarefas constantemente usadas no TSM podem ser adicionadas à uma macro e vinculadas ao botão de rolagem de seu mouse. Use as opções abaixo para ajustar esta macro e vinculá-la."
 L["Map Ping"] = "Mapeamento"
-L["Market Value"] = "Valor de Mercado"
 L["Market value"] = "Valor de mercado"
+L["Market Value"] = "Valor de Mercado"
+L["Market Value Price Source"] = "Fonte de Preço de Valor de Mercado"
 --[[Translation missing --]]
 L["Market value price source"] = "Market value price source"
-L["Market Value Price Source"] = "Fonte de Preço de Valor de Mercado"
 L["Mat cost"] = "Custo do material"
 L["Mat Price"] = "Preço do Material"
 --[[Translation missing --]]
@@ -13591,9 +13591,9 @@ L["Max quantity"] = "Quantidade máxima"
 --[[Translation missing --]]
 L["Max restock quantity"] = "Max restock quantity"
 L["Max Sell Price"] = "Preço Máximo de Venda"
-L["Max Shopping Price"] = "Preço Máximo de Compra"
 --[[Translation missing --]]
 L["Max shopping price"] = "Max shopping price"
+L["Max Shopping Price"] = "Preço Máximo de Compra"
 --[[Translation missing --]]
 L["Max sniper price"] = "Max sniper price"
 L["Maximum amount already posted."] = "Quantidade máxima já postada."
@@ -13621,8 +13621,8 @@ L["Min 0 - Max 20"] = "Min 0 - Max 20"
 --[[Translation missing --]]
 L["Min 0.5 - Max 10"] = "Min 0.5 - Max 10"
 L["Min Buy Price"] = "Preço Mínimo de Compra"
-L["Min Buyout"] = "Arremate Mínimo"
 L["Min buyout"] = "Valor mínimo de compra"
+L["Min Buyout"] = "Arremate Mínimo"
 --[[Translation missing --]]
 L["Min number of expires"] = "Min number of expires"
 L["Min profit amount"] = "Lucro mínimo"
@@ -13989,8 +13989,8 @@ L["Sale Data"] = "Dados de Venda"
 --[[Translation missing --]]
 L["Sale information"] = "Sale information"
 L["Sale Price"] = "Preço de Venda"
-L["Sale Rate"] = "Taxa de Venda"
 L["Sale rate"] = "Taxa de venda"
+L["Sale Rate"] = "Taxa de Venda"
 L["Sales"] = "Vendas"
 L["SALES"] = "VENDAS"
 L["Save"] = "Salvar"
@@ -14875,8 +14875,8 @@ L["Deposit Cost"] = "Стоимость залога"
 L["Deposit reagents"] = "Залоговые реагенты"
 L["Deselect All"] = "Убрать выделение со всего"
 L["Destroy Next"] = "Уничтожить следующее"
-L["Destroy Value"] = "Стоимость уничтожения"
 L["Destroy value"] = "Цена уничтожения"
+L["Destroy Value"] = "Стоимость уничтожения"
 L["Destroy value source"] = "Источник цены уничтожения"
 L["Destroying"] = "Уничтожение"
 L["Destroying %s button"] = "Кнопка уничтожить %s"
@@ -15185,10 +15185,10 @@ L["Make Operations Global?"] = "Сделать операции глобальн
 L["Management Options"] = "Дополнительные настройки"
 L["Many commonly-used actions in TSM can be added to a macro and bound to your scroll wheel. Use the options below to setup this macro and scroll wheel binding."] = "Многие часто используемые действия в TSM можно привязать к прокрутке колеса мыши с помощью макросов. Используйте настройки ниже, чтобы экономить время."
 L["Map Ping"] = "Звук пингования по карте"
-L["Market Value"] = "Рыночная цена аукциона (14дн.)"
 L["Market value"] = "Рыночная цена аукциона (14дн.)"
-L["Market value price source"] = "Источник рыночной цены"
+L["Market Value"] = "Рыночная цена аукциона (14дн.)"
 L["Market Value Price Source"] = "Источник рыночной цены"
+L["Market value price source"] = "Источник рыночной цены"
 L["Mat cost"] = "Стоимость мат-ов"
 L["Mat Price"] = "Цена мат-ов"
 L["Match stack size"] = "Совпадение размера стопки"
@@ -15206,8 +15206,8 @@ L["Max Price"] = "Макс. цена"
 L["Max quantity"] = "Макс. количество"
 L["Max restock quantity"] = "Макс. количество пополнения"
 L["Max Sell Price"] = "Макс цена Продажи"
-L["Max Shopping Price"] = "Макс. цена покупки"
 L["Max shopping price"] = "Макс. цена покупки"
+L["Max Shopping Price"] = "Макс. цена покупки"
 L["Max sniper price"] = "Макс. цена Снайпера"
 L["Maximum amount already posted."] = "Макс. количество уже выставлено."
 L["Maximum auction price"] = "Максимальная цена аукциона"
@@ -15224,8 +15224,8 @@ L["Min"] = "Мин"
 L["Min 0 - Max 20"] = "Мин. 0 - Макс. 20"
 L["Min 0.5 - Max 10"] = "Мин 0.5 - Макс 10"
 L["Min Buy Price"] = "Мин цена Покупки"
-L["Min Buyout"] = "Мин. цена аукциона"
 L["Min buyout"] = "Мин. цена аукциона"
+L["Min Buyout"] = "Мин. цена аукциона"
 L["Min number of expires"] = "Мин. номер истекает"
 L["Min profit amount"] = "Мин. сумма прибыли"
 L["Min restock quantity"] = "Мин. количество пополнения"
@@ -15506,8 +15506,8 @@ L["Sale"] = "Продажа"
 L["Sale Data"] = "Данные о продажах"
 L["Sale information"] = "Информация о продаже"
 L["Sale Price"] = "Цена продажи"
-L["Sale Rate"] = "Рейтинг продаж"
 L["Sale rate"] = "Рейтинг продаж"
+L["Sale Rate"] = "Рейтинг продаж"
 L["Sales"] = "Продажи"
 L["SALES"] = "Продажи"
 L["Save"] = "Сохранить"
