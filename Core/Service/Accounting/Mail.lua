@@ -364,7 +364,7 @@ function private.GetFirstInboxItemLink(index)
 		end
 	end
 	if not attachIndex then
-		error(format("Invalid attachIndex for index %s", tostring(index)))
+		return
 	end
 	local speciesId, level, breedQuality = TooltipScanning.GetInboxBattlePetInfo(index, attachIndex)
 	if speciesId and speciesId > 0 then
