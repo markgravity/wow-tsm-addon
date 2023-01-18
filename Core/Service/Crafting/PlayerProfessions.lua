@@ -10,9 +10,9 @@ local ProfessionInfo = TSM.Include("Data.ProfessionInfo")
 local Database = TSM.Include("Util.Database")
 local Event = TSM.Include("Util.Event")
 local Delay = TSM.Include("Util.Delay")
-local String = TSM.Include("Util.String")
 local TempTable = TSM.Include("Util.TempTable")
 local CraftString = TSM.Include("Util.CraftString")
+local MatString = TSM.Include("Util.MatString")
 local Threading = TSM.Include("Service.Threading")
 local private = {
 	playerProfessionsThread = nil,
@@ -266,7 +266,7 @@ function private.PlayerProfessionsThread()
 	end
 	for _, craftString in ipairs(craftStrings) do
 		local playersToRemove = TempTable.Acquire()
-		for player in TSM.Crafting.PlayerIterator(craftString) do
+		for _, player in TSM.Crafting.PlayerIterator(craftString) do
 			-- check if the player still exists and still has this profession
 			local playerProfessions = TSM.db:Get("sync", TSM.db:GetSyncScopeKeyByCharacter(player), "internalData", "playerProfessions")
 			if not playerProfessions or not playerProfessions[TSM.Crafting.GetProfession(craftString)] then
@@ -282,10 +282,9 @@ function private.PlayerProfessionsThread()
 			for _, itemString in TSM.Crafting.MatIterator(craftString) do
 				matUsed[itemString] = true
 			end
-			for _, itemString in TSM.Crafting.OptionalMatIterator(craftString) do
-				local _, _, matList = strsplit(":", itemString)
-				for itemId in String.SplitIterator(matList, ",") do
-					matUsed["i:"..itemId] = true
+			for _, matString in TSM.Crafting.OptionalMatIterator(craftString) do
+				for itemString in MatString.ItemIterator(matString) do
+					matUsed[itemString] = true
 				end
 			end
 		end

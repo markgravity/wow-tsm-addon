@@ -15,6 +15,7 @@ local TempTable = TSM.Include("Util.TempTable")
 local DragContext = TSM.Include("UI.DragContext")
 local Tooltip = TSM.Include("UI.Tooltip")
 local UIElements = TSM.Include("UI.UIElements")
+local UIUtils = TSM.Include("UI.UIUtils")
 local private = {
 	dragContextTimer = Delay.CreateTimer("ITEM_LIST_DRAG_CONTEXT", DragContext.Clear),
 	prevSelectedTemp = {},
@@ -237,7 +238,9 @@ function ItemList:_HandleQueryUpdate(query)
 				if sectionIndex then
 					self._sectionNumRows[sectionIndex] = self._sectionNumRows[sectionIndex] - #uuids
 				end
-				Table.RemoveRange(self._data, startIndex, startIndex + #uuids - 1)
+				if #uuids > 0 then
+					table.removemulti(self._data, startIndex, #uuids)
+				end
 				for _, uuid in ipairs(uuids) do
 					local itemString = self._itemString[uuid]
 					assert(itemString)
@@ -314,7 +317,9 @@ function ItemList:_HandleQueryUpdate(query)
 					self._selectedData[prevItemString] = nil
 				end
 			end
-			Table.RemoveRange(self._data, dataStartOffset + 1, dataStartOffset + dataLen)
+			if dataLen > 0 then
+				table.removemulti(self._data, dataStartOffset + 1, dataLen)
+			end
 		end
 		dataLen = query:Count()
 		if dataLen > 0 then
@@ -498,7 +503,7 @@ function ItemList.__protected:_HandleRowClick(row, mouseButton)
 	if dataIndex then
 		local itemString = self._itemString[self._data[dataIndex]]
 		if IsShiftKeyDown() or IsControlKeyDown() then
-			TSM.UI.HandleModifiedItemClick(itemString)
+			UIUtils.HandleModifiedItemClick(itemString)
 		else
 			self._selectedData[itemString] = not self._selectedData[itemString] or nil
 			self:_DrawItemRowSelectedState(row, self._selectedData[itemString])
