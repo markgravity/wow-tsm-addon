@@ -7,7 +7,7 @@
 --- "What's New" Dialog
 -- @module WhatsNew
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local WhatsNew = TSM.UI:NewPackage("WhatsNew")
 local L = TSM.Include("Locale").GetTable()
 local Theme = TSM.Include("Util.Theme")
@@ -50,7 +50,7 @@ function WhatsNew.GetDialog()
 		:SetSize(650, 390)
 		:SetPadding(12, 12, 0, 12)
 		:AddAnchor("CENTER")
-		:SetBackgroundColor("FRAME_BG", true)
+		:SetRoundedBackgroundColor("FRAME_BG")
 		:AddChild(UIElements.New("Frame", "header")
 			:SetLayout("HORIZONTAL")
 			:SetHeight(24)

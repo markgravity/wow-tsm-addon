@@ -4,8 +4,9 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local DisenchantInfo = TSM.Init("Data.DisenchantInfo")
+local TSM = select(2, ...) ---@type TSM
+local DisenchantInfo = TSM.Init("Data.DisenchantInfo") ---@class Data.DisenchantInfo
+local Environment = TSM.Include("Environment")
 local private = {}
 local DATA = nil
 
@@ -15,7 +16,7 @@ local DATA = nil
 -- Disenchant Rates Data
 -- ============================================================================
 
-if TSM.IsWowVanillaClassic() then
+if Environment.IsVanillaClassic() then
 	DATA = {
 		-- Dust
 		["i:10940"] = { -- Strange Dust
@@ -265,7 +266,7 @@ if TSM.IsWowVanillaClassic() then
 			},
 		},
 	}
-elseif TSM.IsWowWrathClassic() then
+elseif Environment.IsWrathClassic() then
 	DATA = {
 		-- Dust
 		["i:10940"] = { -- Strange Dust
@@ -643,7 +644,7 @@ elseif TSM.IsWowWrathClassic() then
 			},
 		},
 	}
-else
+elseif Environment.IsRetail() then
 	DATA = {
 		-- Dust
 		["i:10940"] = { -- Strange Dust
@@ -773,6 +774,19 @@ else
 				{classId = Enum.ItemClass.Armor, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.400},
 				{classId = Enum.ItemClass.Weapon, quality = 2, minItemLevel = 2, maxItemLevel = 999, matRate = 1.000, minAmount = 2, maxAmount = 4, amountOfMats = 2.500},
 				{classId = Enum.ItemClass.Weapon, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.400},
+			},
+		},
+		["i:194123"] = { -- Chromatic Dust
+			expansion = 9,
+			minLevel = 60,
+			maxLevel = 70,
+			sourceInfo = {
+				{classId = Enum.ItemClass.Armor, quality = 2, minItemLevel = 2, maxItemLevel = 999, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.500},
+				{classId = Enum.ItemClass.Armor, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 2, maxAmount = 3, amountOfMats = 1.2500},
+				{classId = Enum.ItemClass.Profession, quality = 2, minItemLevel = 2, maxItemLevel = 999, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.500},
+				{classId = Enum.ItemClass.Profession, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 2, maxAmount = 3, amountOfMats = 1.2500},
+				{classId = Enum.ItemClass.Weapon, quality = 2, minItemLevel = 2, maxItemLevel = 999, matRate = 1.000, minAmount = 1, maxAmount = 2, amountOfMats = 1.500},
+				{classId = Enum.ItemClass.Weapon, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 0.350, minAmount = 4, maxAmount = 5, amountOfMats = 1.575},
 			},
 		},
 
@@ -1047,6 +1061,19 @@ else
 				{classId = Enum.ItemClass.Weapon, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 0.350, minAmount = 1, maxAmount = 1, amountOfMats = 0.350},
 			},
 		},
+		["i:194124"] = { -- Vibrant Shard
+			expansion = 9,
+			minLevel = 60,
+			maxLevel = 70,
+			sourceInfo = {
+				{classId = Enum.ItemClass.Armor, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 1, maxAmount = 1, amountOfMats = 0.500},
+				{classId = Enum.ItemClass.Armor, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 1, maxAmount = 2, amountOfMats = 0.750},
+				{classId = Enum.ItemClass.Profession, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 1, maxAmount = 1, amountOfMats = 0.500},
+				{classId = Enum.ItemClass.Profession, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 1, maxAmount = 2, amountOfMats = 0.750},
+				{classId = Enum.ItemClass.Weapon, quality = 3, minItemLevel = 2, maxItemLevel = 999, matRate = 0.650, minAmount = 1, maxAmount = 2, amountOfMats = 0.800},
+				{classId = Enum.ItemClass.Weapon, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 0.600, minAmount = 2, maxAmount = 3, amountOfMats = 1.350},
+			},
+		},
 
 		-- Crystals
 		["i:22450"] = { -- Void Crystal
@@ -1136,7 +1163,19 @@ else
 				{classId = Enum.ItemClass.Weapon, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 1.000, minAmount = 1, maxAmount = 1, amountOfMats = 1.000},
 			},
 		},
+		["i:200113"] = { -- Resonant Crystal
+			expansion = 9,
+			minLevel = 60,
+			maxLevel = 70,
+			sourceInfo = {
+				{classId = Enum.ItemClass.Armor, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 1, maxAmount = 1, amountOfMats = 0.500},
+				{classId = Enum.ItemClass.Profession, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 0.500, minAmount = 1, maxAmount = 1, amountOfMats = 0.500},
+				{classId = Enum.ItemClass.Weapon, quality = 4, minItemLevel = 2, maxItemLevel = 999, matRate = 0.400, minAmount = 1, maxAmount = 2, amountOfMats = 0.450},
+			},
+		},
 	}
+else
+	error("Invalid game version")
 end
 
 

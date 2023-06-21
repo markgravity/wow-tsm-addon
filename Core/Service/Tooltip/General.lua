@@ -6,6 +6,7 @@
 
 local TSM = select(2, ...) ---@type TSM
 local General = TSM.Tooltip:NewPackage("General")
+local Environment = TSM.Include("Environment")
 local L = TSM.Include("Locale").GetTable()
 local DisenchantInfo = TSM.Include("Data.DisenchantInfo")
 local TempTable = TSM.Include("Util.TempTable")
@@ -159,7 +160,7 @@ function private.PopulateFullDestroyLines(tooltip, itemString)
 		tooltip:EndSection()
 		return
 	end
-	local value, method = CustomPrice.GetConversionsValue(itemString, private.settings.destroyValueSource)
+	local value, method = TSM.Crafting.GetConversionsValue(itemString, private.settings.destroyValueSource)
 	if not value then
 		return nil, nil
 	end
@@ -168,8 +169,8 @@ function private.PopulateFullDestroyLines(tooltip, itemString)
 	if method == Conversions.METHOD.DISENCHANT then
 		local classId = ItemInfo.GetClassId(itemString)
 		local quality = ItemInfo.GetQuality(itemString)
-		local itemLevel = not TSM.IsWowClassic() and ItemInfo.GetItemLevel(itemString) or ItemInfo.GetItemLevel(ItemString.GetBase(itemString))
-		local expansion = not TSM.IsWowClassic() and ItemInfo.GetExpansion(itemString) or nil
+		local itemLevel = Environment.IsRetail() and ItemInfo.GetItemLevel(itemString) or ItemInfo.GetItemLevel(ItemString.GetBase(itemString))
+		local expansion = Environment.IsRetail() and ItemInfo.GetExpansion(itemString) or nil
 		for targetItemString in DisenchantInfo.TargetItemIterator() do
 			local amountOfMats, matRate, minAmount, maxAmount = DisenchantInfo.GetTargetItemSourceInfo(targetItemString, classId, quality, itemLevel, expansion)
 			if amountOfMats then
@@ -180,10 +181,13 @@ function private.PopulateFullDestroyLines(tooltip, itemString)
 			end
 		end
 	else
-		for targetItemString, amountOfMats, matRate, minAmount, maxAmount in Conversions.TargetItemsByMethodIterator(itemString, method) do
-			local matValue = CustomPrice.GetItemPrice(targetItemString, private.settings.destroyValueSource) or 0
+		for targetItemString, amountOfMats, matRate, minAmount, maxAmount, targetQuality, sourceQuality in Conversions.TargetItemsByMethodIterator(itemString, method) do
+			local matValue = CustomPrice.GetItemPrice(targetItemString, private.settings.destroyValueSource) or TSM.Crafting.GetConversionsValue(targetItemString, private.settings.destroyValueSource) or 0
 			if matValue > 0 then
-				tooltip:AddSubItemValueLine(targetItemString, matValue, amountOfMats, matRate, minAmount, maxAmount)
+				local quality = sourceQuality and TSM.Crafting.DFCrafting.GetExpectedSalvageResult(method, sourceQuality)
+				if not targetQuality or targetQuality == quality then
+					tooltip:AddSubItemValueLine(targetItemString, matValue, amountOfMats, matRate, minAmount, maxAmount)
+				end
 			end
 		end
 	end
@@ -197,7 +201,7 @@ function private.PopulateSimpleDestroyLines(tooltip, itemString)
 		value = 20
 		method = Conversions.METHOD.PROSPECT
 	else
-		value, method = CustomPrice.GetConversionsValue(itemString, private.settings.destroyValueSource)
+		value, method = TSM.Crafting.GetConversionsValue(itemString, private.settings.destroyValueSource)
 	end
 	if not value then
 		return nil, nil
@@ -412,7 +416,7 @@ function private.PopulateSimpleInventoryLine(tooltip, itemString)
 		local totalPlayer, totalAlt, totalGuild, totalAuction = 18, 0, 1, 4
 		local totalNum2 = totalPlayer + totalAlt + totalGuild + totalAuction
 		local rightText2 = nil
-		if not TSM.IsWowVanillaClassic() then
+		if Environment.HasFeature(Environment.FEATURES.GUILD_BANK) then
 			rightText2 = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s guild, %s AH)"], totalNum2, totalPlayer, totalAlt, totalGuild, totalAuction)
 		else
 			rightText2 = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s AH)"], totalNum2, totalPlayer, totalAlt, totalAuction)
@@ -427,7 +431,7 @@ function private.PopulateSimpleInventoryLine(tooltip, itemString)
 	local totalNum = totalPlayer + totalAlt + totalGuild + totalAuction
 	if totalNum > 0 then
 		local rightText = nil
-		if not TSM.IsWowVanillaClassic() then
+		if Environment.HasFeature(Environment.FEATURES.GUILD_BANK) then
 			rightText = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s guild, %s AH)"], totalNum, totalPlayer, totalAlt, totalGuild, totalAuction)
 		else
 			rightText = private.RightTextFormatHelper(tooltip, L["%s (%s player, %s alts, %s AH)"], totalNum, totalPlayer, totalAlt, totalAuction)

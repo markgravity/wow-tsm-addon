@@ -9,7 +9,7 @@
 -- be selected. It is a subclass of the @{GroupTree} class.
 -- @classmod ManagementGroupTree
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local L = TSM.Include("Locale").GetTable()
 local Analytics = TSM.Include("Util.Analytics")
 local String = TSM.Include("Util.String")
@@ -48,7 +48,7 @@ function ManagementGroupTree.Acquire(self)
 		:SetLayout("VERTICAL")
 		:SetHeight(20)
 		:SetStrata("TOOLTIP")
-		:SetBackgroundColor("PRIMARY_BG_ALT", true)
+		:SetRoundedBackgroundColor("PRIMARY_BG_ALT")
 		:SetBorderColor("INDICATOR")
 		:SetContext(self)
 		:AddChild(UIElements.New("Text", "text")

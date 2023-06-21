@@ -4,8 +4,9 @@
 --    All Rights Reserved - Detailed license information included with addon.     --
 -- ------------------------------------------------------------------------------ --
 
-local _, TSM = ...
-local Mill = TSM.Init("Data.Mill")
+local TSM = select(2, ...) ---@type TSM
+local Mill = TSM.Init("Data.Mill") ---@class Data.Mill
+local Environment = TSM.Include("Environment")
 local private = {}
 local DATA = nil
 
@@ -15,9 +16,9 @@ local DATA = nil
 -- Mill Data
 -- ============================================================================
 
-if TSM.IsWowVanillaClassic() then
+if Environment.IsVanillaClassic() then
 	DATA = {}
-elseif TSM.IsWowWrathClassic() then
+elseif Environment.IsWrathClassic() then
 	DATA = {
 		-- ======================================= Common Pigments =======================================
 		["i:39151"] = { -- Alabaster Pigment (Ivory / Moonglow Ink)
@@ -137,7 +138,7 @@ elseif TSM.IsWowWrathClassic() then
 			["i:36906"] = {requiredSkill = 325, matRate = 0.5000, minAmount = 1, maxAmount = 3, amountOfMats = 0.1075}, -- Icethorn
 		},
 	}
-else
+elseif Environment.IsRetail() then
 	DATA = {
 		-- ======================================= Common Pigments =======================================
 		["i:39151"] = { -- Alabaster Pigment (Ivory / Moonglow Ink)
@@ -373,7 +374,90 @@ else
 			["i:171315"] = {matRate = 1.0000, minAmount = 1, maxAmount = 2, amountOfMats = 0.3000}, -- Nightshade
 			["i:187699"] = {matRate = 1.0000, minAmount = 2, maxAmount = 3, amountOfMats = 0.5000}, -- First Flower
 		},
+		["i:198421"] = { -- Shimmering Pigment * (Blazing Ink, Flourishing Ink, Serene Ink)
+			["i:191460"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 1}, -- Hochenblume *
+			["i:191461"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 2}, -- Hochenblume **
+			["i:191462"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 3}, -- Hochenblume ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 1, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198422"] = { -- Shimmering Pigment ** (Blazing Ink, Flourishing Ink, Serene Ink)
+			["i:191460"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 1}, -- Hochenblume *
+			["i:191461"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 2}, -- Hochenblume **
+			["i:191462"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 3}, -- Hochenblume ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 2, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198423"] = { -- Shimmering Pigment *** (Blazing Ink, Flourishing Ink, Serene Ink)
+			["i:191460"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 1}, -- Hochenblume *
+			["i:191461"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 2}, -- Hochenblume **
+			["i:191462"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 3}, -- Hochenblume ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 3, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198418"] = { -- Blazing Pigment * (Blazing Ink)
+			["i:191464"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 1}, -- Saxifrage *
+			["i:191465"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 2}, -- Saxifrage **
+			["i:191466"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 3}, -- Saxifrage ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 1, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198419"] = { -- Blazing Pigment ** (Blazing Ink)
+			["i:191464"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 1}, -- Saxifrage *
+			["i:191465"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 2}, -- Saxifrage **
+			["i:191466"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 3}, -- Saxifrage ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 2, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198420"] = { -- Blazing Pigment *** (Blazing Ink)
+			["i:191464"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 1}, -- Saxifrage *
+			["i:191465"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 2}, -- Saxifrage **
+			["i:191466"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 3}, -- Saxifrage ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 3, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198412"] = { -- Serene Pigment * (Serene Ink)
+			["i:191467"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 1}, -- Bubble Poppy *
+			["i:191468"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 2}, -- Bubble Poppy **
+			["i:191469"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 3}, -- Bubble Poppy ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 1, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198413"] = { -- Serene Pigment ** (Serene Ink)
+			["i:191467"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 1}, -- Bubble Poppy *
+			["i:191468"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 2}, -- Bubble Poppy **
+			["i:191469"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 3}, -- Bubble Poppy ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 2, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198414"] = { -- Serene Pigment *** (Serene Ink)
+			["i:191467"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 1}, -- Bubble Poppy *
+			["i:191468"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 2}, -- Bubble Poppy **
+			["i:191469"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 3}, -- Bubble Poppy ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 3, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198415"] = { -- Flourishing Pigment * (Flourishing Ink)
+			["i:191470"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 1}, -- Writhebark *
+			["i:191471"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 2}, -- Writhebark **
+			["i:191472"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 1, sourceQuality = 3}, -- Writhebark ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 1, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198416"] = { -- Flourishing Pigment ** (Flourishing Ink)
+			["i:191470"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 1}, -- Writhebark *
+			["i:191471"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 2}, -- Writhebark **
+			["i:191472"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 2, sourceQuality = 3}, -- Writhebark ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 2, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:198417"] = { -- Flourishing Pigment *** (Flourishing Ink)
+			["i:191470"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 1}, -- Writhebark *
+			["i:191471"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 2}, -- Writhebark **
+			["i:191472"] = {matRate = 1.0000, minAmount = 2, maxAmount = 5, amountOfMats = 0.7000, targetQuality = 3, sourceQuality = 3}, -- Writhebark ***
+			["i:200061"] = {matRate = 0.2462, minAmount = 2, maxAmount = 5, amountOfMats = 0.1723, targetQuality = 3, sourceQuality = 1}, -- Prismatic Leaper
+		},
+		["i:190320"] = { -- Rousing Fire
+			["i:200061"] = {matRate = 0.0065, minAmount = 1, maxAmount = 2, amountOfMats = 0.0019}, -- Prismatic Leaper
+		},
+		["i:190328"] = { -- Rousing Frost
+			["i:200061"] = {matRate = 0.0065, minAmount = 1, maxAmount = 2, amountOfMats = 0.0019}, -- Prismatic Leaper
+		},
+		["i:190322"] = { -- Rousing Order
+			["i:200061"] = {matRate = 0.0020, minAmount = 1, maxAmount = 1, amountOfMats = 0.0010}, -- Prismatic Leaper
+		},
 	}
+else
+	error("Invalid game version")
 end
 
 
@@ -391,7 +475,7 @@ function Mill.SourceItemIterator(targetItemString)
 end
 
 function Mill.GetRate(targetItemString, sourceItemString)
-	return DATA[targetItemString][sourceItemString].amountOfMats, DATA[targetItemString][sourceItemString].matRate, DATA[targetItemString][sourceItemString].minAmount, DATA[targetItemString][sourceItemString].maxAmount, DATA[targetItemString][sourceItemString].requiredSkill
+	return DATA[targetItemString][sourceItemString].amountOfMats, DATA[targetItemString][sourceItemString].matRate, DATA[targetItemString][sourceItemString].minAmount, DATA[targetItemString][sourceItemString].maxAmount, DATA[targetItemString][sourceItemString].requiredSkill, DATA[targetItemString][sourceItemString].targetQuality, DATA[targetItemString][sourceItemString].sourceQuality
 end
 
 

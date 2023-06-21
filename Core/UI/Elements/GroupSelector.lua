@@ -9,7 +9,7 @@
 -- filtering. It is a subclass of the @{Element} class.
 -- @classmod GroupSelector
 
-local _, TSM = ...
+local TSM = select(2, ...) ---@type TSM
 local L = TSM.Include("Locale").GetTable()
 local Table = TSM.Include("Util.Table")
 local Analytics = TSM.Include("Util.Analytics")
@@ -217,12 +217,12 @@ end
 -- ============================================================================
 
 function private.OnClick(self)
-	self:GetBaseElement():ShowDialogFrame(UIElements.New("Frame", "frame", "DIALOG")
+	self:GetBaseElement():ShowDialogFrame(UIElements.New("Frame", "frame")
 		:SetLayout("VERTICAL")
 		:SetSize(464, 500)
 		:SetPadding(8)
 		:AddAnchor("CENTER")
-		:SetBackgroundColor("FRAME_BG", true)
+		:SetRoundedBackgroundColor("FRAME_BG")
 		:SetMouseEnabled(true)
 		:AddChild(UIElements.New("Frame", "header")
 			:SetLayout("HORIZONTAL")

@@ -77,12 +77,6 @@ function Cost.GetCraftingCostByCraftString(craftString, optionalMats, qualityMat
 	return cost
 end
 
-function Cost.GetCraftingCostByRecipeString(recipeString)
-	local craftString = CraftString.FromRecipeString(recipeString)
-	local cost = private.GetCraftingCostHelper(craftString, recipeString)
-	return cost
-end
-
 function Cost.GetCraftedItemValue(itemString)
 	local hasCraftPriceMethod, craftPrice = TSM.Operations.Crafting.GetCraftedItemValue(itemString)
 	if hasCraftPriceMethod then
@@ -109,7 +103,8 @@ function Cost.GetCostsByCraftString(craftString)
 end
 
 function Cost.GetCostsByRecipeString(recipeString)
-	local craftingCost = Cost.GetCraftingCostByRecipeString(recipeString)
+	local craftString = CraftString.FromRecipeString(recipeString)
+	local craftingCost = private.GetCraftingCostHelper(craftString, recipeString)
 	local itemString = Cost.GetLevelItemString(recipeString)
 	local craftedItemValue = itemString and Cost.GetCraftedItemValue(itemString) or nil
 	return craftingCost, craftedItemValue, craftingCost and craftedItemValue and (craftedItemValue - craftingCost) or nil
@@ -130,10 +125,12 @@ function Cost.GetLevelItemString(recipeString)
 	end
 	if absItemLevel then
 		assert(level == 0)
-		return itemString.."::i"..absItemLevel
+		local baseItemString = ItemString.GetBase(itemString)
+		return baseItemString.."::i"..absItemLevel
 	elseif level > 0 then
 		local relLevel = ProfessionInfo.GetRelativeItemLevelByRank(level)
-		return itemString..(relLevel < 0 and "::-" or "::+")..abs(relLevel)
+		local baseItemString = ItemString.GetBase(itemString)
+		return baseItemString..(relLevel < 0 and "::-" or "::+")..abs(relLevel)
 	else
 		return itemString
 	end

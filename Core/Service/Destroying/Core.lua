@@ -6,11 +6,13 @@
 
 local TSM = select(2, ...) ---@type TSM
 local Destroying = TSM:NewPackage("Destroying")
+local Environment = TSM.Include("Environment")
 local DisenchantInfo = TSM.Include("Data.DisenchantInfo")
 local Container = TSM.Include("Util.Container")
 local Database = TSM.Include("Util.Database")
 local Event = TSM.Include("Util.Event")
 local SlotId = TSM.Include("Util.SlotId")
+local Table = TSM.Include("Util.Table")
 local TempTable = TSM.Include("Util.TempTable")
 local ItemString = TSM.Include("Util.ItemString")
 local Reactive = TSM.Include("Util.Reactive")
@@ -91,13 +93,19 @@ function Destroying.OnInitialize()
 		:RegisterCallback("deMaxQuality", private.UpdateBagDB)
 		:RegisterCallback("includeSoulbound", private.UpdateBagDB)
 
-	local currentTime = time()
-	for _, entries in pairs(private.settings.destroyingHistory) do
-		for i = #entries, 1, -1 do
-			local value = entries[i]
-			if value.time < currentTime - CLEANUP_THRESHOLD then
-				tremove(entries, i)
+	local cleanupTime = time() - CLEANUP_THRESHOLD
+	for spellId, entries in pairs(private.settings.destroyingHistory) do
+		-- Rely on the entries being sorted in ascending time
+		local removeThroughIndex = nil
+		for i = 1, #entries do
+			if entries[i].time > cleanupTime then
+				break
 			end
+			removeThroughIndex = i
+		end
+		if removeThroughIndex then
+			Log.Info("Removing %d old entries for %s", removeThroughIndex, tostring(spellId))
+			Table.RemoveRange(entries, 1, removeThroughIndex)
 		end
 	end
 
@@ -126,14 +134,16 @@ function Destroying.OnInitialize()
 
 	Event.Register("LOOT_READY", private.SendEventToThread)
 	Event.Register("LOOT_CLOSED", private.SendEventToThread)
-	Event.Register("BAG_UPDATE_DELAYED", private.SendEventToThread)
+	BagTracking.RegisterCallback(function()
+		private.SendEventToThread("BAG_UPDATE_DELAYED")
+	end)
 	Event.Register("UNIT_SPELLCAST_START", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_FAILED", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_FAILED_QUIET", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_INTERRUPTED", private.SpellCastEventHandler)
 	Event.Register("UNIT_SPELLCAST_SUCCEEDED", private.SpellCastEventHandler)
 
-	if not TSM.IsWowClassic() then
+	if Environment.HasFeature(Environment.FEATURES.C_TRADE_SKILL_UI) then
 		hooksecurefunc(C_TradeSkillUI, "CraftSalvage", function(spellId, _, itemLocation)
 			if not ProfessionInfo.IsSalvage(spellId) then
 				return
@@ -373,7 +383,7 @@ function private.SpellCastEventHandler(event, unit, _, spellId)
 	if unit ~= "player" then
 		return
 	end
-	if not TSM.IsWowClassic() and event == "UNIT_SPELLCAST_START" and not ProfessionInfo.IsSalvage(spellId) then
+	if Environment.HasFeature(Environment.FEATURES.C_TRADE_SKILL_UI) and event == "UNIT_SPELLCAST_START" and not ProfessionInfo.IsSalvage(spellId) then
 		private.destroySpellId = nil
 		private.itemSpellId = nil
 	end
@@ -430,7 +440,7 @@ function private.UpdateBagDB()
 		query:Equal("isBoP", false)
 			:Equal("isBoA", false)
 	end
-	if TSM.IsWowWrathClassic() then
+	if Environment.IsWrathClassic() then
 		private.disenchantSkillLevel = TSM.Crafting.PlayerProfessions.GetProfessionSkill(UnitName("player"), GetSpellInfo(7411))
 		private.jewelcraftSkillLevel = TSM.Crafting.PlayerProfessions.GetProfessionSkill(UnitName("player"), GetSpellInfo(28897))
 		private.inscriptionSkillLevel = TSM.Crafting.PlayerProfessions.GetProfessionSkill(UnitName("player"), GetSpellInfo(45357))
@@ -492,7 +502,7 @@ function private.IsDestroyable(itemString)
 	local quality = ItemInfo.GetQuality(itemString)
 	if ItemInfo.IsDisenchantable(itemString) and quality <= private.settings.deMaxQuality then
 		local hasSourceItem = true
-		if TSM.IsWowWrathClassic() then
+		if Environment.IsWrathClassic() then
 			local classId = ItemInfo.GetClassId(itemString)
 			local itemLevel = ItemInfo.GetItemLevel(ItemString.GetBase(itemString))
 			hasSourceItem = false
@@ -528,7 +538,7 @@ function private.IsDestroyable(itemString)
 	end
 
 	local hasSourceItem = false
-	for _, _, _, _, _, skillRequired in Conversions.TargetItemsByMethodIterator(itemString, conversionMethod) do
+	for _, _, _, _, _, _, _, skillRequired in Conversions.TargetItemsByMethodIterator(itemString, conversionMethod) do
 		if not skillRequired or (conversionMethod == Conversions.METHOD.PROSPECT and private.jewelcraftSkillLevel and skillRequired and private.jewelcraftSkillLevel >= skillRequired) or (conversionMethod == Conversions.METHOD.MILL and private.inscriptionSkillLevel and skillRequired and private.inscriptionSkillLevel >= skillRequired) then
 			hasSourceItem = true
 		end
